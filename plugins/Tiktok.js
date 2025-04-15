@@ -56,7 +56,7 @@ cmd({
         `💬 *ᴄᴏᴍᴍᴇɴᴛs*: ${metrics.comment_count}\n` +
         `♻️ *sʜᴀʀᴇs*: ${metrics.share_count}\n` +
         `📥 *ᴅᴏᴡɴʟᴏᴀᴅs*: ${metrics.download_count}\n\n` +
-        `> *© 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 ʀᴀᴠɪɴᴅᴜ_𝙼𝙳*`,
+        `> *© ᴘᴏᴡᴇʀ ʙʏ ʜᴇꜱʜᴀɴ ᴍᴅ*`,
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
