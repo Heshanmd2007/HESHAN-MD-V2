@@ -9,7 +9,7 @@ cmd({
     react: "🧠",
     filename: __filename
 },
-async (conn, mek, m, { from, args, q, reply, react }) => {
+async (conn, mek, m, { from, args, q, reply }) => {
     try {
         if (!q) return reply("Please provide a message for OpenAI.\nExample: `.openai Hello`");
 
@@ -17,16 +17,14 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
         const { data } = await axios.get(apiUrl);
 
         if (!data || !data.result) {
-            await react("❌");
-            return reply("OpenAI failed to respond. Please try again later.");
+            await conn.sendMessage(from, { text: "OpenAI failed to respond. Please try again later." }, { quoted: mek });
+            return;
         }
 
-        await reply(`🧠 *OpenAI Response:*\n\n${data.result}`);
-        await react("✅");
+        await conn.sendMessage(from, { text: `🧠 *OpenAI Response:*\n\n${data.result}` }, { quoted: mek });
     } catch (e) {
         console.error("Error in OpenAI command:", e);
-        await react("❌");
-        reply("An error occurred while communicating with OpenAI.");
+        await conn.sendMessage(from, { text: "An error occurred while communicating with OpenAI." }, { quoted: mek });
     }
 });
 
@@ -38,7 +36,7 @@ cmd({
     react: "🤖",
     filename: __filename
 },
-async (conn, mek, m, { from, args, q, reply, react }) => {
+async (conn, mek, m, { from, args, q, reply }) => {
     try {
         if (!q) return reply("Please provide a message for the AI.\nExample: `.ai Hello`");
 
@@ -46,19 +44,16 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
         const { data } = await axios.get(apiUrl);
 
         if (!data || !data.message) {
-            await react("❌");
-            return reply("AI failed to respond. Please try again later.");
+            await conn.sendMessage(from, { text: "AI failed to respond. Please try again later." }, { quoted: mek });
+            return;
         }
 
-        await reply(`🤖 *AI Response:*\n\n${data.message}`);
-        await react("✅");
+        await conn.sendMessage(from, { text: `🤖 *AI Response:*\n\n${data.message}` }, { quoted: mek });
     } catch (e) {
         console.error("Error in AI command:", e);
-        await react("❌");
-        reply("An error occurred while communicating with the AI.");
+        await conn.sendMessage(from, { text: "An error occurred while communicating with the AI." }, { quoted: mek });
     }
 });
-
 
 cmd({
     pattern: "deepseek",
@@ -68,7 +63,7 @@ cmd({
     react: "👾",
     filename: __filename
 },
-async (conn, mek, m, { from, args, q, reply, react }) => {
+async (conn, mek, m, { from, args, q, reply }) => {
     try {
         if (!q) return reply("Please provide a message for DeepSeek AI.\nExample: `.deepseek Hello`");
 
@@ -76,15 +71,13 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
         const { data } = await axios.get(apiUrl);
 
         if (!data || !data.answer) {
-            await react("❌");
-            return reply("DeepSeek AI failed to respond. Please try again later.");
+            await conn.sendMessage(from, { text: "DeepSeek AI failed to respond. Please try again later." }, { quoted: mek });
+            return;
         }
 
-        await reply(`👾 *DeepSeek AI Response:*\n\n${data.answer}`);
-        await react("✅");
+        await conn.sendMessage(from, { text: `👾 *DeepSeek AI Response:*\n\n${data.answer}` }, { quoted: mek });
     } catch (e) {
         console.error("Error in DeepSeek AI command:", e);
-        await react("❌");
-        reply("An error occurred while communicating with DeepSeek AI.");
+        await conn.sendMessage(from, { text: "An error occurred while communicating with DeepSeek AI." }, { quoted: mek });
     }
 });
