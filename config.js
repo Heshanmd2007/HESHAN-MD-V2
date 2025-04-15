@@ -26,7 +26,7 @@ module.exports = {
     ANTI_LINK: process.env.ANTI_LINK || "false",
     ANTI_BAD: process.env.ANTI_BAD || "false",
     PREFIX: process.env.PREFIX || ".",
-    FAKE_RECORDING: process.env.FAKE_RECORDING || "false",
+    AUTO_RECORDING: process.env.AUTO_RECORDING || "true",
     AUTO_REACT: process.env.AUTO_REACT || "false",
     OWNER_REACT: process.env.OWNER_REACT || "false",
     BOT_NAME: process.env.BOT_NAME || "ʜᴇꜱʜᴀɴ ᴍᴅ",
