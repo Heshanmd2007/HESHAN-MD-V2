@@ -65,7 +65,7 @@ const {
   setInterval(clearTempDir, 5 * 60 * 1000);
 
 //===================SESSION-AUTH============================
-const credsPath = __dirname + '/sessions/creds.json';
+const credsPath = __dirname + '/auth_info_baileys/creds.json';
 
 async function downloadSessionData() {
     if (!config.SESSION_ID) {
