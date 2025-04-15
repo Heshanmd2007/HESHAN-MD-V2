@@ -93,69 +93,62 @@ const {
   syncFullHistory: true,
   auth: state,
   version
-})
+});
 
 conn.ev.on('connection.update', async (update) => {
-  const { connection, lastDisconnect } = update
+  const { connection, lastDisconnect } = update;
+  
   if (connection === 'close') {
     if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-      connectToWA()
+      connectToWA();
     }
   } else if (connection === 'open') {
-    console.log('🧬 Installing Plugins')
+    console.log('🧬 Installing Plugins');
     const path = require('path');
     fs.readdirSync("./plugins/").forEach((plugin) => {
       if (path.extname(plugin).toLowerCase() == ".js") {
         require("./plugins/" + plugin);
       }
     });
-    console.log('Plugins installed successfully ✅')
-    console.log('Bot connected to WhatsApp ✅')
-    
-    // Decorative up message
-    let up = `
-╔════════════════════╗
-║    🚀 HESHAN-MD    ║
-╠════════════════════╣
-║  *Bot Activated!*  ║
-║                    ║
-║  Prefix: ${prefix}      ║
-║                    ║
-║  🔗 Auto-joining:  ║
-║  Support Group    ║
-╚════════════════════╝
+    console.log('✅ Plugins installed successfully');
+    console.log('✅ Bot connected to WhatsApp');
+
+    // Send connection message to bot owner
+    const ownerNumber = "94719845166@s.whatsapp.net"; // Format: 94 instead of +94
+    const upMessage = `
+🚀 *HESHAN-MD BOT ACTIVATED ‼️*  
+
+✅ *Connected Successfully*  
+
+🔹 *Prefix:* ${prefix}  
+
+📅 *Date:* ${new Date().toLocaleString()}  
 `.trim();
 
-    // Send message to bot owner
-    await conn.sendMessage(conn.user.id, { 
-      image: { url: `https://i.ibb.co/gFrcJCDP/IMG-20250408-WA0074.jpg` }, 
-      caption: up 
-    });
+    try {
+      // Send image + caption to owner
+      await conn.sendMessage(ownerNumber, { 
+        image: { url: `https://i.ibb.co/gFrcJCDP/IMG-20250408-WA0074.jpg` },
+        caption: upMessage 
+      });
+      console.log("📤 Connection message sent to owner: +94 71 984 5166");
+    } catch (err) {
+      console.error("❌ Failed to send message to owner:", err);
+    }
 
-    // Auto-join group
+    // Auto-join group (optional)
     const groupInvite = 'https://chat.whatsapp.com/JuDCZci59V17mhOamtCE4W';
     try {
       const groupCode = groupInvite.split('/').pop();
       await conn.groupAcceptInvite(groupCode);
       console.log('✅ Successfully joined support group');
-      
-      // Get group metadata to find admin
-      const groupData = await conn.groupMetadata(groupCode);
-      const admin = groupData.participants.find(p => p.admin !== null);
-      
-      if (admin) {
-        await conn.sendMessage(admin.id, {
-          text: `🤖 *Bot Notification*\n\nI have successfully joined the group as requested!\n\n*Bot Prefix:* ${prefix}`
-        });
-      }
     } catch (err) {
       console.error('❌ Failed to join group:', err);
     }
   }
-})
+});
 
-conn.ev.on('creds.update', saveCreds)
-
+conn.ev.on('creds.update', saveCreds);
   //==============================
 
   conn.ev.on('messages.update', async updates => {
