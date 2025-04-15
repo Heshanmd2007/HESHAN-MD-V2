@@ -32,13 +32,13 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
             '*📡 Transmitting data...* 📤',
             '*🕵️‍♂️ Ensuring stealth...* 🤫',
             '*🔧 Finalizing operations...* 🏁',
-            '*🔧 Awais Get Your All Data...* 🎁',
+            '*🔧 Heshan Get Your All Data...* 🎁',
             '',
             '⚠️ *Note:* All actions are for demonstration purposes only.',
             '⚠️ *Reminder:* Ethical hacking is the only way to ensure security.',
             '⚠️ *Reminder:* Strong hacking is the only way to ensure security.',
             '',
-            ' * YOUR DATA HACK SUCCESSFULLY*'
+            ' *YOUR DATA HACK SUCCESSFULLY*'
         ];
 
         for (const line of steps) {
