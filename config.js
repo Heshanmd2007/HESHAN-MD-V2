@@ -6,7 +6,7 @@ function convertToBool(text, fault = 'true') {
 }
 
 module.exports = {
-    SESSION_ID: process.env.SESSION_ID || "PiAymIKQ#bXnkIB5SJxLu32nK26CUG70QbnerUi01GsV4LFS9B2g",
+    SESSION_ID: process.env.SESSION_ID || "",
     CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
     CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "💝,💖,💗,❤️‍🔥,❤️‍🩹,❤️,🩷,🧡,💛,💚,💙,🩵,💜,🤎,🖤,🩶,🤍",
     CAPTION: process.env.CAPTION || "*ᴘᴏᴡᴅᴇʀᴇᴅ ʙʏ ʜᴇꜱʜᴀɴ*",
@@ -20,15 +20,15 @@ module.exports = {
     AUTO_STICKER: process.env.AUTO_STICKER || "false",
     AUTHOR: (process.env.PACK_INFO?.split(';') || [])[0] || 'HESHAN MD',
     PACKNAME: (process.env.PACK_INFO?.split(';') || [])[1] || '94719845166',
-    AUTO_REPLY: process.env.AUTO_REPLY || "true",
+    AUTO_REPLY: process.env.AUTO_REPLY || "false",
     ALIVE_IMG: process.env.ALIVE_IMG || "https://i.imgur.com/ruBrlLo.jpeg",
     ALIVE_MSG: process.env.ALIVE_MSG || "HII DEAR IM ONLINE I'M ʜᴇꜱʜᴀɴ ᴍᴅ WHATSAPP BOT 😊♻️",
     ANTI_LINK: process.env.ANTI_LINK || "false",
     ANTI_BAD: process.env.ANTI_BAD || "false",
     PREFIX: process.env.PREFIX || ".",
     FAKE_RECORDING: process.env.FAKE_RECORDING || "false",
-    AUTO_REACT: process.env.AUTO_REACT || "true",
-    OWNER_REACT: process.env.OWNER_REACT || "true",
+    AUTO_REACT: process.env.AUTO_REACT || "false",
+    OWNER_REACT: process.env.OWNER_REACT || "false",
     BOT_NAME: process.env.BOT_NAME || "ʜᴇꜱʜᴀɴ ᴍᴅ",
     ANTI_VV: process.env.ANTI_VV || "true",
     ANTI_DEL_PATH: process.env.ANTI_DEL_PATH || "log", // change it to 'same' if you want to resend deleted message in same chat
