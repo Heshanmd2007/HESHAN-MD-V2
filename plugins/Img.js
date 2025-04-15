@@ -16,7 +16,7 @@ cmd({
             return reply(" Please provide a search query\nExample: .img dogs");
         }
 
-        await reply(`🔍 Searching images for "${query}"...`);
+        await reply(`*🔍 Searching images for "${query}*"...`);
 
         const url = `https://apis.davidcyriltech.my.id/googleimage?query=${encodeURIComponent(query)}`;
         const response = await axios.get(url);
@@ -37,7 +37,7 @@ cmd({
                 from,
                 { 
                     image: { url: imageUrl },
-                    caption: `📷 Result for: ${query}\n *ʜᴇꜱʜᴀɴ ᴍᴅ*`
+                    caption: `📷  *Result for: ${query}*\n\n> *ʜᴇꜱʜᴀɴ ᴍᴅ*`
                 },
                 { quoted: mek }
             );
