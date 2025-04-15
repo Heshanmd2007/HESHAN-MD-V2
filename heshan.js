@@ -87,36 +87,74 @@ const {
   var { version } = await fetchLatestBaileysVersion()
   
   const conn = makeWASocket({
-          logger: P({ level: 'silent' }),
-          printQRInTerminal: false,
-          browser: Browsers.macOS("Firefox"),
-          syncFullHistory: true,
-          auth: state,
-          version
-          })
-      
-  conn.ev.on('connection.update', (update) => {
+  logger: P({ level: 'silent' }),
+  printQRInTerminal: false,
+  browser: Browsers.macOS("Firefox"),
+  syncFullHistory: true,
+  auth: state,
+  version
+})
+
+conn.ev.on('connection.update', async (update) => {
   const { connection, lastDisconnect } = update
   if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-  connectToWA()
-  }
+    if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+      connectToWA()
+    }
   } else if (connection === 'open') {
-  console.log('🧬 Installing Plugins')
-  const path = require('path');
-  fs.readdirSync("./plugins/").forEach((plugin) => {
-  if (path.extname(plugin).toLowerCase() == ".js") {
-  require("./plugins/" + plugin);
+    console.log('🧬 Installing Plugins')
+    const path = require('path');
+    fs.readdirSync("./plugins/").forEach((plugin) => {
+      if (path.extname(plugin).toLowerCase() == ".js") {
+        require("./plugins/" + plugin);
+      }
+    });
+    console.log('Plugins installed successfully ✅')
+    console.log('Bot connected to WhatsApp ✅')
+    
+    // Decorative up message
+    let up = `
+╔════════════════════╗
+║    🚀 HESHAN-MD    ║
+╠════════════════════╣
+║  *Bot Activated!*  ║
+║                    ║
+║  Prefix: ${prefix}      ║
+║                    ║
+║  🔗 Auto-joining:  ║
+║  Support Group    ║
+╚════════════════════╝
+`.trim();
+
+    // Send message to bot owner
+    await conn.sendMessage(conn.user.id, { 
+      image: { url: `https://i.ibb.co/gFrcJCDP/IMG-20250408-WA0074.jpg` }, 
+      caption: up 
+    });
+
+    // Auto-join group
+    const groupInvite = 'https://chat.whatsapp.com/JuDCZci59V17mhOamtCE4W';
+    try {
+      const groupCode = groupInvite.split('/').pop();
+      await conn.groupAcceptInvite(groupCode);
+      console.log('✅ Successfully joined support group');
+      
+      // Get group metadata to find admin
+      const groupData = await conn.groupMetadata(groupCode);
+      const admin = groupData.participants.find(p => p.admin !== null);
+      
+      if (admin) {
+        await conn.sendMessage(admin.id, {
+          text: `🤖 *Bot Notification*\n\nI have successfully joined the group as requested!\n\n*Bot Prefix:* ${prefix}`
+        });
+      }
+    } catch (err) {
+      console.error('❌ Failed to join group:', err);
+    }
   }
-  });
-  console.log('Plugins installed successful ✅')
-  console.log('Bot connected to whatsapp ✅')
-  
-  let up = `*YOUR BOT HESHAN-MD ACTIVE NOW ENJOY♥️*\n\n*PREFIX:* ${prefix}`;
-    conn.sendMessage(conn.user.id, { image: { url: `https://i.ibb.co/gFrcJCDP/IMG-20250408-WA0074.jpg` }, caption: up })
-  }
-  })
-  conn.ev.on('creds.update', saveCreds)
+})
+
+conn.ev.on('creds.update', saveCreds)
 
   //==============================
 
