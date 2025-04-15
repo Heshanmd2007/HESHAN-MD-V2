@@ -1,7 +1,6 @@
-const { cmd ,commands } = require('../command');
-const { exec } = require('child_process');
+const { cmd } = require('../command');
 const config = require('../config');
-const {sleep} = require('../lib/functions')
+
 // 1. Shutdown Bot
 cmd({
     pattern: "shutdown",
@@ -12,8 +11,10 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    reply("🛑 Shutting down...").then(() => process.exit());
+    await reply("🛑 Shutting down...");
+    process.exit(0); // Exit with success code
 });
+
 // 2. Broadcast Message to All Groups
 cmd({
     pattern: "broadcast",
@@ -24,15 +25,23 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, args, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    if (args.length === 0) return reply("📢 Please provide a message to broadcast.");
+    if (!args.length) return reply("📢 Please provide a message to broadcast.");
+    
     const message = args.join(' ');
-    const groups = Object.keys(await conn.groupFetchAllParticipating());
-    for (const groupId of groups) {
-        await conn.sendMessage(groupId, { text: message }, { quoted: mek });
+    try {
+        const groups = await conn.groupFetchAllParticipating();
+        const groupIds = Object.keys(groups);
+        
+        for (const groupId of groupIds) {
+            await conn.sendMessage(groupId, { text: message }).catch(e => console.error(`Failed to send to ${groupId}:`, e));
+        }
+        reply(`📢 Broadcast sent to ${groupIds.length} groups.`);
+    } catch (error) {
+        reply(`❌ Broadcast failed: ${error.message}`);
     }
-    reply("📢 Message broadcasted to all groups.");
 });
-// 3. Set Profile Picture
+
+// 3. Set Profile Picture (Fixed Error Handling)
 cmd({
     pattern: "setpp",
     desc: "Set bot profile picture.",
@@ -42,15 +51,17 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, quoted, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    if (!quoted || !quoted.message.imageMessage) return reply("❌ Please reply to an image.");
+    if (!quoted?.message?.imageMessage) return reply("❌ Please reply to an image.");
+    
     try {
         const media = await conn.downloadMediaMessage(quoted);
         await conn.updateProfilePicture(conn.user.jid, { url: media });
-        reply("🖼️ Profile picture updated successfully!");
+        reply("✅ Profile picture updated successfully!");
     } catch (error) {
-        reply(`❌ Error updating profile picture: ${error.message}`);
+        reply(`❌ Failed to update: ${error.message}`);
     }
 });
+
 // 4. Block User
 cmd({
     pattern: "block",
@@ -61,15 +72,16 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, quoted, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    if (!quoted) return reply("❌ Please reply to the user you want to block.");
-    const user = quoted.sender;
+    if (!quoted?.sender) return reply("❌ Reply to a user's message to block them.");
+    
     try {
-        await conn.updateBlockStatus(user, 'block');
-        reply(`🚫 User ${user} blocked successfully.`);
+        await conn.updateBlockStatus(quoted.sender, 'block');
+        reply(`🚫 User blocked: ${quoted.sender.split('@')[0]}`);
     } catch (error) {
-        reply(`❌ Error blocking user: ${error.message}`);
+        reply(`❌ Block failed: ${error.message}`);
     }
 });
+
 // 5. Unblock User
 cmd({
     pattern: "unblock",
@@ -80,16 +92,17 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, quoted, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    if (!quoted) return reply("❌ Please reply to the user you want to unblock.");
-    const user = quoted.sender;
+    if (!quoted?.sender) return reply("❌ Reply to a user's message to unblock them.");
+    
     try {
-        await conn.updateBlockStatus(user, 'unblock');
-        reply(`✅ User ${user} unblocked successfully.`);
+        await conn.updateBlockStatus(quoted.sender, 'unblock');
+        reply(`✅ User unblocked: ${quoted.sender.split('@')[0]}`);
     } catch (error) {
-        reply(`❌ Error unblocking user: ${error.message}`);
+        reply(`❌ Unblock failed: ${error.message}`);
     }
 });
-// 6. Clear All Chats
+
+// 6. Clear All Chats (Safer Implementation)
 cmd({
     pattern: "clearchats",
     desc: "Clear all chats from the bot.",
@@ -99,17 +112,26 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
+    
     try {
         const chats = conn.chats.all();
+        let deletedCount = 0;
+        
         for (const chat of chats) {
-            await conn.modifyChat(chat.jid, 'delete');
+            try {
+                await conn.modifyChat(chat.jid, 'delete');
+                deletedCount++;
+            } catch (e) {
+                console.error(`Failed to delete chat ${chat.jid}:`, e);
+            }
         }
-        reply("🧹 All chats cleared successfully!");
+        reply(`🧹 Deleted ${deletedCount}/${chats.length} chats.`);
     } catch (error) {
         reply(`❌ Error clearing chats: ${error.message}`);
     }
 });
 
+// 7. Get Bot JID
 cmd({
     pattern: "jid",
     desc: "Get the bot's JID.",
@@ -121,7 +143,8 @@ async (conn, mek, m, { from, isOwner, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
     reply(`🤖 *Bot JID:* ${conn.user.jid}`);
 });
-// 8. Group JIDs List
+
+// 8. Group JIDs List (Improved Formatting)
 cmd({
     pattern: "gjid",
     desc: "Get the list of JIDs for all groups the bot is part of.",
@@ -131,7 +154,12 @@ cmd({
 },
 async (conn, mek, m, { from, isOwner, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    const groups = await conn.groupFetchAllParticipating();
-    const groupJids = Object.keys(groups).join('\n');
-    reply(`📝 *Group JIDs:*\n\n${groupJids}`);
+    
+    try {
+        const groups = await conn.groupFetchAllParticipating();
+        const groupList = Object.keys(groups).map(jid => `➤ ${jid.replace('@s.whatsapp.net', '')}`).join('\n');
+        reply(`📝 *Groups (${Object.keys(groups).length})*:\n\n${groupList}`);
+    } catch (error) {
+        reply(`❌ Failed to fetch groups: ${error.message}`);
+    }
 });
