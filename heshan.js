@@ -78,8 +78,8 @@ async function downloadSessionData() {
     if (config.SESSION_ID.startsWith(prefix)) {
         try {
             // Create sessions directory if it doesn't exist
-            if (!fs.existsSync(__dirname + '/sessions')) {
-                fs.mkdirSync(__dirname + '/sessions');
+            if (!fs.existsSync(__dirname + '/auth_info_baileys')) {
+                fs.mkdirSync(__dirname + '/auth_info_baileys');
             }
             
             const base64Data = config.SESSION_ID.slice(prefix.length);
@@ -93,7 +93,7 @@ async function downloadSessionData() {
             return false;
         }
     } else {
-        console.error('❌ SESSION_ID must start with "𝐑𝐀𝐕𝐈𝐍𝐃𝐔-MD~" prefix!');
+        console.error('❌ SESSION_ID must start with "HESHAN-MD~" prefix!');
         return false;
     }
 }
