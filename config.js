@@ -28,7 +28,7 @@ module.exports = {
     PREFIX: process.env.PREFIX || ".",
     AUTO_RECORDING: process.env.AUTO_RECORDING || "true",
     AUTO_REACT: process.env.AUTO_REACT || "false",
-    OWNER_REACT: process.env.OWNER_REACT || "false",
+    OWNER_REACT: process.env.OWNER_REACT || "true",
     BOT_NAME: process.env.BOT_NAME || "ʜᴇꜱʜᴀɴ ᴍᴅ",
     ANTI_VV: process.env.ANTI_VV || "true",
     ANTI_DEL_PATH: process.env.ANTI_DEL_PATH || "log", // change it to 'same' if you want to resend deleted message in same chat
