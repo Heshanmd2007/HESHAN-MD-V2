@@ -55,7 +55,7 @@ cmd({
       caption: `*HESHAN_𝐌𝐃 𝐅𝐁 𝐃𝐋*\n\n` +
         `🔖 *TITLE*: ${title}\n` +
         `📏 *QUALITY*: ${downloads.find(d => d.quality === "HD") ? "HD" : "SD"}\n\n` +
-        `> *© 𝙿𝙾𝚆𝙴𝚁𝙴𝙳 𝙱𝚈 ʜᴇꜱʜᴀɴ_𝙼𝙳*`,
+        `> *© ᴘᴏᴡᴇʀ ʙʏ ʜᴇꜱʜᴀɴ 𝙼𝙳*`,
       contextInfo: {
         mentionedJid: [m.sender],
         forwardingScore: 999,
