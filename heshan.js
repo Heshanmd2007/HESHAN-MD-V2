@@ -63,21 +63,48 @@ const {
   
   // Clear the temp directory every 5 minutes
   setInterval(clearTempDir, 5 * 60 * 1000);
-  
-  //===================SESSION-AUTH============================
-  if (!fs.existsSync(__dirname + '/auth_info_baileys/creds.json')) {
-  if(!config.SESSION_ID) return console.log('Please add your session to SESSION_ID env !!')
-  const sessdata = config.SESSION_ID
-  const filer = File.fromURL(`https://mega.nz/file/${sessdata}`)
-  filer.download((err, data) => {
-  if(err) throw err
-  fs.writeFile(__dirname + '/auth_info_baileys/creds.json', data, () => {
-  console.log("Session downloaded ✅")
-  })})}
-  
-  const express = require("express");
-  const app = express();
-  const port = process.env.PORT || 9090;
+
+//===================SESSION-AUTH============================
+const credsPath = __dirname + '/sessions/creds.json';
+
+async function downloadSessionData() {
+    if (!config.SESSION_ID) {
+        console.error('❌ Please set SESSION_ID in environment variables!');
+        return false;
+    }
+
+    const prefix = "HESHAN-MD~";
+    
+    if (config.SESSION_ID.startsWith(prefix)) {
+        try {
+            // Create sessions directory if it doesn't exist
+            if (!fs.existsSync(__dirname + '/sessions')) {
+                fs.mkdirSync(__dirname + '/sessions');
+            }
+            
+            const base64Data = config.SESSION_ID.slice(prefix.length);
+            const decodedData = Buffer.from(base64Data, 'base64').toString('utf-8');
+            
+            await fs.promises.writeFile(credsPath, decodedData);
+            console.log("🔒 Session decoded and saved successfully!");
+            return true;
+        } catch (error) {
+            console.error('❌ Base64 decode failed:', error.message);
+            return false;
+        }
+    } else {
+        console.error('❌ SESSION_ID must start with "𝐑𝐀𝐕𝐈𝐍𝐃𝐔-MD~" prefix!');
+        return false;
+    }
+}
+
+if (!fs.existsSync(credsPath)) {
+    downloadSessionData();
+}
+
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 9090;
   
   //=============================================
   
