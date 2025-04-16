@@ -4,7 +4,7 @@ const { cmd } = require('../command');
 
 cmd({
     pattern: "owner",
-    react: "👑", // Reaction emoji when the command is triggered
+    react: "👨🏻‍💻", // Reaction emoji when the command is triggered
     alias: ["king"],
     desc: "Get owner number",
     category: "main",
