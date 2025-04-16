@@ -33,7 +33,7 @@
     "adm-zip": "^0.5.16",
     "google-tts-api": "^2.0.2",
     "megajs": "^1.1.0",
-    "mrnima-moviedl": "1.0.0",
+    "@cacheable/node-cache": "^1.5.4",
     "@dark-yasiya/scrap":"1.0.1",
     "node-fetch": "^2.6.1",
     "path": "^0.12.7",
