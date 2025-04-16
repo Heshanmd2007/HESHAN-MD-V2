@@ -7,7 +7,7 @@ function convertToBool(text, fault = 'true') {
 
 module.exports = {
     SESSION_ID: process.env.SESSION_ID || "PiAymIKQ#bXnkIB5SJxLu32nK26CUG70QbnerUi01GsV4LFS9B2g",
-    CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
+    CUSTOM_REACT: process.env.CUSTOM_REACT || "true",
     CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "💝,💖,💗,❤️‍🔥,❤️‍🩹,❤️,🩷,🧡,💛,💚,💙,🩵,💜,🤎,🖤,🩶,🤍",
     CAPTION: process.env.CAPTION || "*ᴘᴏᴡᴅᴇʀᴇᴅ ʙʏ ʜᴇꜱʜᴀɴ*",
     ALWAYS_ONLINE: process.env.ALWAYS_ONLINE || "false",
@@ -15,7 +15,7 @@ module.exports = {
     READ_MESSAGE: process.env.READ_MESSAGE || "false", // Added auto-read configuration
     AUTO_TYPING: process.env.AUTO_TYPING || "false",
     CURRENT_STATUS: process.env.CURRENT_STATUS || "false",
-    MODE: process.env.MODE || "public",
+    MODE: process.env.MODE || "privet ",
     AUTO_VOICE: process.env.AUTO_VOICE || "false",
     AUTO_STICKER: process.env.AUTO_STICKER || "false",
     AUTHOR: (process.env.PACK_INFO?.split(';') || [])[0] || 'HESHAN MD',
