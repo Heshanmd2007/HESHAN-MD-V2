@@ -1,4 +1,4 @@
-const config = require('../config');
+pconst config = require('../config');
 const { cmd, commands } = require('../command');
 
 cmd({
@@ -32,7 +32,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
         const end = new Date().getTime();
         const responseTime = (end - start) / 1000;
 
-        const text = `*HESHAN-MD SPEED: ${responseTime.toFixed(2)}ms ${reactionEmoji}*`;
+        const text = `*𝐇𝐄𝐒𝐇𝐀𝐍-𝐌𝐃 𝐒𝐏𝐄𝐄𝐃: ${responseTime.toFixed(2)}ms ${reactionEmoji}*`;
 
         await conn.sendMessage(from, {
             text,
@@ -42,7 +42,7 @@ async (conn, mek, m, { from, quoted, sender, reply }) => {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '@newsletter',
-                    newsletterName: "HESHAN MD ☬",
+                    newsletterName: "𝐇𝐄𝐒𝐇𝐀𝐍 𝐌𝐃 ☬",
                     serverMessageId: 143
                 }
             }
@@ -69,7 +69,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         const message = await conn.sendMessage(from, { text: '*PINGING...*' })
         const endTime = Date.now()
         const ping = endTime - startTime
-        await conn.sendMessage(from, { text: `*🔥 HESHAN-MD SPEED : ${ping}ms*` }, { quoted: message })
+        await conn.sendMessage(from, { text: `*🔥 𝐇𝐄𝐒𝐇𝐀𝐍-𝐌𝐃 𝐒𝐏𝐄𝐄𝐃 : ${ping}ms*` }, { quoted: message })
     } catch (e) {
         console.log(e)
         reply(`${e}`)
