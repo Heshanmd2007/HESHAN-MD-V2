@@ -13,12 +13,12 @@ cmd({
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
         // Generate system status message
-        const status = `╭━━〔 *𝐇𝐄𝐒𝐇𝐀𝐍-𝐌𝐃* 〕━━┈⊷
+        const status = `╭━━〔 *HESHAN-MD* 〕━━┈⊷
 ┃◈╭─────────────·๏
 ┃◈┃• *⏳Uptime*:  ${runtime(process.uptime())} 
 ┃◈┃• *📟 Ram usage*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${(os.totalmem() / 1024 / 1024).toFixed(2)}MB
 ┃◈┃• *⚙️ HostName*: ${os.hostname()}
-┃◈┃• *👨‍💻 Owner*: 𝐇𝐄𝐒𝐇𝐀𝐍👨🏻‍💻
+┃◈┃• *👨‍💻 Owner*: HESHAN
 ┃◈┃• *🧬 Version*: 3.0.0 BETA
 ┃◈└───────────┈⊷
 ╰──────────────┈⊷
